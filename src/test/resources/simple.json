@@ -1,0 +1,664 @@
+{
+  "nodes": [{
+    "id": "596290f9-5c27-4447-be26-0c7e2f6d89b3",
+    "type": "TextInOut",
+    "position": {
+      "x": -160,
+      "y": -20
+    },
+    "data": {
+      "description": "description",
+      "task_name": "text_processing.text_in_out",
+      "has_inputs": true,
+      "template": {
+        "text": {
+          "required": true,
+          "placeholder": "",
+          "show": true,
+          "value": "",
+          "name": "text",
+          "display_name": "文本",
+          "type": "str",
+          "list": false,
+          "field_type": "textarea"
+        },
+        "output": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "name": "output",
+          "display_name": "输出",
+          "type": "str",
+          "list": false,
+          "field_type": "",
+          "is_output": true
+        }
+      }
+    },
+    "category": "textProcessing"
+  }, {
+    "id": "c8177126-4011-470c-bcc1-5d5cc4ce47d6",
+    "type": "JsonProcess",
+    "position": {
+      "x": 380,
+      "y": -360
+    },
+    "data": {
+      "description": "description",
+      "task_name": "control_flows.json_process",
+      "has_inputs": true,
+      "template": {
+        "input": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "name": "input",
+          "display_name": "输入",
+          "type": "str|dict",
+          "list": false,
+          "field_type": "input"
+        },
+        "process_mode": {
+          "required": false,
+          "placeholder": "",
+          "show": false,
+          "value": "get_multiple_values",
+          "options": [{
+            "value": "get_value",
+            "label": "根据 Key 获取值"
+          }, {
+            "value": "get_multiple_values",
+            "label": "根据多个 Key 获取多个值"
+          }, {
+            "value": "list_values",
+            "label": "列表形式列出所有值"
+          }, {
+            "value": "list_keys",
+            "label": "列表形式列出所有 Key"
+          }],
+          "name": "process_mode",
+          "display_name": "处理模式",
+          "type": "str",
+          "clear_after_run": false,
+          "list": true,
+          "field_type": "select"
+        },
+        "key": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "name": "key",
+          "display_name": "Key",
+          "type": "str",
+          "list": false,
+          "field_type": "input"
+        },
+        "keys": {
+          "required": false,
+          "placeholder": "",
+          "show": false,
+          "value": ["姓名", "出生日期", "学历", "毕业院校", "项目经历"],
+          "name": "keys",
+          "display_name": "Keys",
+          "type": "list",
+          "list": false,
+          "field_type": "input"
+        },
+        "default_value": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "name": "default_value",
+          "display_name": "默认值（当 Key 不存在时）",
+          "type": "str",
+          "list": false,
+          "field_type": "input"
+        },
+        "output": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "name": "output",
+          "display_name": "输出",
+          "type": "str",
+          "list": false,
+          "field_type": "",
+          "is_output": true
+        }
+      }
+    },
+    "category": "controlFlows"
+  }, {
+    "id": "815f2f07-77e3-432b-a5c2-4ede65769ea5",
+    "type": "TemplateCompose",
+    "position": {
+      "x": 900,
+      "y": -300
+    },
+    "data": {
+      "description": "description",
+      "task_name": "text_processing.template_compose",
+      "has_inputs": true,
+      "template": {
+        "template": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "## 姓名\n{{姓名}}\n\n## 出生日期\n{{出生日期}}\n\n## 学历\n{{学历}}\n\n## 毕业院校\n{{毕业院校}}\n\n## 项目经历\n{{项目经历}}",
+          "name": "template",
+          "display_name": "模板",
+          "type": "str",
+          "list": false,
+          "field_type": "textarea"
+        },
+        "output": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "name": "output",
+          "display_name": "输出",
+          "type": "str",
+          "list": false,
+          "field_type": "textarea",
+          "is_output": true
+        },
+        "姓名": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "options": [],
+          "name": "姓名",
+          "display_name": "姓名",
+          "type": "str",
+          "list": false,
+          "field_type": "input"
+        },
+        "出生日期": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "options": [],
+          "name": "出生日期",
+          "display_name": "出生日期",
+          "type": "str",
+          "list": false,
+          "field_type": "input"
+        },
+        "学历": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "options": [],
+          "name": "学历",
+          "display_name": "学历",
+          "type": "str",
+          "list": false,
+          "field_type": "input"
+        },
+        "毕业院校": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "options": [],
+          "name": "毕业院校",
+          "display_name": "毕业院校",
+          "type": "str",
+          "list": false,
+          "field_type": "input"
+        },
+        "项目经历": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "options": [],
+          "name": "项目经历",
+          "display_name": "项目经历",
+          "type": "str",
+          "list": false,
+          "field_type": "textarea"
+        }
+      }
+    },
+    "category": "textProcessing"
+  }, {
+    "id": "a68654c5-5cb8-42f2-8f35-37e754704ed5",
+    "type": "ButtonTrigger",
+    "position": {
+      "x": -100,
+      "y": -240
+    },
+    "data": {
+      "description": "description",
+      "task_name": "triggers.button_trigger",
+      "has_inputs": false,
+      "template": {
+        "button_text": {
+          "required": true,
+          "placeholder": "Run",
+          "show": false,
+          "value": "运行",
+          "name": "button_text",
+          "display_name": "按钮文字",
+          "type": "str",
+          "list": false,
+          "field_type": "input"
+        }
+      }
+    },
+    "category": "triggers"
+  }, {
+    "id": "d458904a-d30b-4d01-af80-319074ed85a3",
+    "type": "Text",
+    "position": {
+      "x": 1540,
+      "y": 160
+    },
+    "data": {
+      "description": "description",
+      "task_name": "output.text",
+      "has_inputs": false,
+      "template": {
+        "text": {
+          "required": true,
+          "placeholder": "",
+          "show": true,
+          "value": "",
+          "name": "text",
+          "display_name": "文本内容",
+          "type": "str",
+          "list": false,
+          "field_type": "textarea"
+        },
+        "output_title": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "测试",
+          "name": "output_title",
+          "display_name": "文本标题",
+          "type": "str",
+          "list": false,
+          "field_type": "input",
+          "has_tooltip": true
+        },
+        "render_markdown": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": true,
+          "name": "render_markdown",
+          "display_name": "渲染 Markdown",
+          "type": "bool",
+          "list": false,
+          "field_type": "checkbox"
+        },
+        "output": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "name": "output",
+          "display_name": "输出",
+          "type": "str|dict",
+          "list": false,
+          "field_type": "textarea",
+          "is_output": true
+        }
+      }
+    },
+    "category": "outputs"
+  }, {
+    "id": "a4acfa11-710c-437e-9e6d-b5485f20a684",
+    "type": "MarkdownToHtml",
+    "position": {
+      "x": 1580,
+      "y": -160
+    },
+    "data": {
+      "description": "description",
+      "task_name": "text_processing.markdown_to_html",
+      "has_inputs": true,
+      "template": {
+        "markdown": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "name": "markdown",
+          "display_name": "Markdown",
+          "type": "str",
+          "list": false,
+          "field_type": "textarea"
+        },
+        "html": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "name": "html",
+          "display_name": "HTML",
+          "type": "str",
+          "list": false,
+          "field_type": "textarea",
+          "is_output": true
+        }
+      }
+    },
+    "category": "textProcessing"
+  }, {
+    "id": "7feeae32-afd8-4d76-9714-8c71f1ee13bd",
+    "type": "Email",
+    "position": {
+      "x": 2020,
+      "y": -440
+    },
+    "data": {
+      "description": "description",
+      "task_name": "output.email",
+      "has_inputs": true,
+      "template": {
+        "to_email": {
+          "required": true,
+          "placeholder": "",
+          "show": true,
+          "value": "",
+          "name": "to_email",
+          "display_name": "收件人",
+          "type": "str",
+          "list": false,
+          "field_type": "input"
+        },
+        "subject": {
+          "required": true,
+          "placeholder": "",
+          "show": true,
+          "value": "",
+          "name": "subject",
+          "display_name": "主题",
+          "type": "str",
+          "list": false,
+          "field_type": "input"
+        },
+        "content_html": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "name": "content_html",
+          "display_name": "内容（HTML）",
+          "type": "str",
+          "list": false,
+          "field_type": "input"
+        },
+        "attachments": {
+          "required": false,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "name": "attachments",
+          "display_name": "attachments",
+          "type": "str",
+          "list": false,
+          "field_type": "input"
+        }
+      }
+    },
+    "category": "outputs"
+  }, {
+    "id": "46e0b2ee-ebf1-4efe-b10d-91171e103efb",
+    "type": "TextInOut",
+    "position": {
+      "x": 1520,
+      "y": -760
+    },
+    "data": {
+      "description": "description",
+      "task_name": "text_processing.text_in_out",
+      "has_inputs": true,
+      "template": {
+        "text": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "name": "text",
+          "display_name": "收件人",
+          "type": "str",
+          "list": false,
+          "field_type": "textarea"
+        },
+        "output": {
+          "required": true,
+          "placeholder": "",
+          "show": false,
+          "value": "",
+          "name": "output",
+          "display_name": "输出",
+          "type": "str",
+          "list": false,
+          "field_type": "",
+          "is_output": true
+        }
+      }
+    },
+    "category": "textProcessing"
+  }],
+  "edges": [{
+    "id": "vueflow__edge-596290f9-5c27-4447-be26-0c7e2f6d89b3output-c8177126-4011-470c-bcc1-5d5cc4ce47d6input",
+    "type": "default",
+    "source": "596290f9-5c27-4447-be26-0c7e2f6d89b3",
+    "target": "c8177126-4011-470c-bcc1-5d5cc4ce47d6",
+    "sourceHandle": "output",
+    "targetHandle": "input",
+    "data": {},
+    "label": "",
+    "animated": true,
+    "style": {
+      "strokeWidth": 3,
+      "stroke": "#28c5e5"
+    },
+    "sourceX": 144.99986698442706,
+    "sourceY": 204.1404894892746,
+    "targetX": 374.99999065283447,
+    "targetY": -222.95319791561607
+  }, {
+    "id": "vueflow__edge-c8177126-4011-470c-bcc1-5d5cc4ce47d6output-姓名-815f2f07-77e3-432b-a5c2-4ede65769ea5姓名",
+    "type": "default",
+    "source": "c8177126-4011-470c-bcc1-5d5cc4ce47d6",
+    "target": "815f2f07-77e3-432b-a5c2-4ede65769ea5",
+    "sourceHandle": "output-姓名",
+    "targetHandle": "姓名",
+    "data": {},
+    "label": "",
+    "animated": true,
+    "style": {
+      "strokeWidth": 3,
+      "stroke": "#28c5e5"
+    },
+    "sourceX": 684.9998428440201,
+    "sourceY": 264.233984705627,
+    "targetX": 894.9999423720208,
+    "targetY": -171.0000404322846
+  }, {
+    "id": "vueflow__edge-c8177126-4011-470c-bcc1-5d5cc4ce47d6output-出生日期-815f2f07-77e3-432b-a5c2-4ede65769ea5出生日期",
+    "type": "default",
+    "source": "c8177126-4011-470c-bcc1-5d5cc4ce47d6",
+    "target": "815f2f07-77e3-432b-a5c2-4ede65769ea5",
+    "sourceHandle": "output-出生日期",
+    "targetHandle": "出生日期",
+    "data": {},
+    "label": "",
+    "animated": true,
+    "style": {
+      "strokeWidth": 3,
+      "stroke": "#28c5e5"
+    },
+    "sourceX": 684.9998428440201,
+    "sourceY": 316.51525006278825,
+    "targetX": 894.9999423720208,
+    "targetY": -83.00009801391428
+  }, {
+    "id": "vueflow__edge-c8177126-4011-470c-bcc1-5d5cc4ce47d6output-学历-815f2f07-77e3-432b-a5c2-4ede65769ea5学历",
+    "type": "default",
+    "source": "c8177126-4011-470c-bcc1-5d5cc4ce47d6",
+    "target": "815f2f07-77e3-432b-a5c2-4ede65769ea5",
+    "sourceHandle": "output-学历",
+    "targetHandle": "学历",
+    "data": {},
+    "label": "",
+    "animated": true,
+    "style": {
+      "strokeWidth": 3,
+      "stroke": "#28c5e5"
+    },
+    "sourceX": 684.9998428440201,
+    "sourceY": 368.7965154199494,
+    "targetX": 894.9999423720208,
+    "targetY": 4.999844404456098
+  }, {
+    "id": "vueflow__edge-c8177126-4011-470c-bcc1-5d5cc4ce47d6output-毕业院校-815f2f07-77e3-432b-a5c2-4ede65769ea5毕业院校",
+    "type": "default",
+    "source": "c8177126-4011-470c-bcc1-5d5cc4ce47d6",
+    "target": "815f2f07-77e3-432b-a5c2-4ede65769ea5",
+    "sourceHandle": "output-毕业院校",
+    "targetHandle": "毕业院校",
+    "data": {},
+    "label": "",
+    "animated": true,
+    "style": {
+      "strokeWidth": 3,
+      "stroke": "#28c5e5"
+    },
+    "sourceX": 684.9998428440201,
+    "sourceY": 421.07768421548326,
+    "targetX": 894.9999423720208,
+    "targetY": 92.99978682282642
+  }, {
+    "id": "vueflow__edge-c8177126-4011-470c-bcc1-5d5cc4ce47d6output-项目经历-815f2f07-77e3-432b-a5c2-4ede65769ea5项目经历",
+    "type": "default",
+    "source": "c8177126-4011-470c-bcc1-5d5cc4ce47d6",
+    "target": "815f2f07-77e3-432b-a5c2-4ede65769ea5",
+    "sourceHandle": "output-项目经历",
+    "targetHandle": "项目经历",
+    "data": {},
+    "label": "",
+    "animated": true,
+    "style": {
+      "strokeWidth": 3,
+      "stroke": "#28c5e5"
+    },
+    "sourceX": 684.9998428440201,
+    "sourceY": 473.3589495726445,
+    "targetX": 894.9999423720208,
+    "targetY": 200.04660680587364
+  }, {
+    "id": "vueflow__edge-815f2f07-77e3-432b-a5c2-4ede65769ea5output-d458904a-d30b-4d01-af80-319074ed85a3text",
+    "type": "default",
+    "source": "815f2f07-77e3-432b-a5c2-4ede65769ea5",
+    "target": "d458904a-d30b-4d01-af80-319074ed85a3",
+    "sourceHandle": "output",
+    "targetHandle": "text",
+    "data": {},
+    "label": "",
+    "animated": true,
+    "style": {
+      "strokeWidth": 3,
+      "stroke": "#28c5e5"
+    },
+    "sourceX": 1204.9998428440201,
+    "sourceY": 468.23397387527484,
+    "targetX": 1535.000038933648,
+    "targetY": 308.0467888515785
+  }, {
+    "id": "vueflow__edge-815f2f07-77e3-432b-a5c2-4ede65769ea5output-a4acfa11-710c-437e-9e6d-b5485f20a684markdown",
+    "type": "default",
+    "source": "815f2f07-77e3-432b-a5c2-4ede65769ea5",
+    "target": "a4acfa11-710c-437e-9e6d-b5485f20a684",
+    "sourceHandle": "output",
+    "targetHandle": "markdown",
+    "data": {},
+    "label": "",
+    "animated": true,
+    "style": {
+      "strokeWidth": 3,
+      "stroke": "#28c5e5"
+    },
+    "sourceX": 1204.9998428440201,
+    "sourceY": 468.23397387527484,
+    "targetX": 1575.000038933648,
+    "targetY": -11.953211148421502
+  }, {
+    "id": "vueflow__edge-46e0b2ee-ebf1-4efe-b10d-91171e103efbtext-7feeae32-afd8-4d76-9714-8c71f1ee13bdto_email",
+    "type": "default",
+    "source": "46e0b2ee-ebf1-4efe-b10d-91171e103efb",
+    "target": "7feeae32-afd8-4d76-9714-8c71f1ee13bd",
+    "sourceHandle": "text",
+    "targetHandle": "to_email",
+    "data": {},
+    "label": "",
+    "animated": true,
+    "style": {
+      "strokeWidth": 3,
+      "stroke": "#28c5e5"
+    },
+    "sourceX": 1825.000035967275,
+    "sourceY": -620.0000778054969,
+    "targetX": 2015.000038933648,
+    "targetY": -311.0000887130983
+  }, {
+    "id": "vueflow__edge-815f2f07-77e3-432b-a5c2-4ede65769ea5姓名-7feeae32-afd8-4d76-9714-8c71f1ee13bdsubject",
+    "type": "default",
+    "source": "815f2f07-77e3-432b-a5c2-4ede65769ea5",
+    "target": "7feeae32-afd8-4d76-9714-8c71f1ee13bd",
+    "sourceHandle": "姓名",
+    "targetHandle": "subject",
+    "data": {},
+    "label": "",
+    "animated": true,
+    "style": {
+      "strokeWidth": 3,
+      "stroke": "#28c5e5"
+    },
+    "sourceX": 1204.9998428440201,
+    "sourceY": -171.0000404322846,
+    "targetX": 2015.000038933648,
+    "targetY": -223.00009801391428
+  }, {
+    "id": "vueflow__edge-a4acfa11-710c-437e-9e6d-b5485f20a684html-7feeae32-afd8-4d76-9714-8c71f1ee13bdcontent_html",
+    "type": "default",
+    "source": "a4acfa11-710c-437e-9e6d-b5485f20a684",
+    "target": "7feeae32-afd8-4d76-9714-8c71f1ee13bd",
+    "sourceHandle": "html",
+    "targetHandle": "content_html",
+    "data": {},
+    "label": "",
+    "animated": true,
+    "style": {
+      "strokeWidth": 3,
+      "stroke": "#28c5e5"
+    },
+    "sourceX": 1884.9998428440201,
+    "sourceY": 80.23422280342535,
+    "targetX": 2015.000038933648,
+    "targetY": -135.0001555955439
+  }],
+  "position": [-380.0083449712108, 495.631424316578],
+  "zoom": 0.6320846553886165,
+  "viewport": {
+    "x": -380.0083449712108,
+    "y": 495.631424316578,
+    "zoom": 0.6320846553886165
+  },
+  "ui": {}
+}

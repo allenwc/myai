@@ -142,11 +142,22 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>com.vladsch.flexmark</groupId>
 			<artifactId>flexmark-all</artifactId>
 			<version>0.62.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.microsoft.bing</groupId>
+			<artifactId>bing-websearch</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.microsoft.bing</groupId>
+			<artifactId>bing-imagesearch</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>

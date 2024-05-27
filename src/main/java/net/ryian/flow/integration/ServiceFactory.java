@@ -1,5 +1,6 @@
 package net.ryian.flow.integration;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -19,10 +20,23 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClient.Builder;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.microsoft.bing.imagesearch.ImageSearchClient;
+import com.microsoft.bing.imagesearch.implementation.ImageSearchClientImpl;
+import com.microsoft.bing.imagesearch.models.ImageObject;
+import com.microsoft.bing.imagesearch.models.Images;
+import com.microsoft.bing.websearch.WebSearchClient;
+import com.microsoft.bing.websearch.implementation.WebSearchClientImpl;
+import com.microsoft.bing.websearch.models.SearchResponse;
+import com.microsoft.bing.websearch.models.WebPage;
+import com.microsoft.rest.credentials.ServiceClientCredentials;
 
 import io.minio.MinioClient;
 import lombok.Getter;
+import net.ryian.flow.model.bo.Setting;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * @author allenwc
@@ -32,18 +46,18 @@ import lombok.Getter;
 public class ServiceFactory {
 
     @Getter
-    private JsonNode setting;
+    private Setting setting;
 
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl sender = new JavaMailSenderImpl();
-        sender.setHost(setting.get("email_smtp_host").asText());
-        sender.setPort(setting.get("email_smtp_port").asInt());
+        sender.setHost(setting.getEmailSmtpHost());
+        sender.setPort(setting.getEmailSmtpPort());
         sender.setDefaultEncoding("UTF-8");
-        String from = setting.get("email_user").asText();
+        String from = setting.getEmailUser();
         sender.setUsername(from);
-        sender.setPassword(setting.get("email_password").asText());
+        sender.setPassword(setting.getEmailPassword());
         Properties properties = new Properties();
-        properties.setProperty("mail.smtp.ssl.enable", setting.get("email_smtp_ssl").asText());
+        properties.setProperty("mail.smtp.ssl.enable", setting.getEmailSmtpSsl().toString());
         properties.setProperty("mail.smtp.auth", "true");
         sender.setJavaMailProperties(properties);
         return sender;
@@ -54,7 +68,7 @@ public class ServiceFactory {
             Duration.ZERO , Duration.ZERO , SslBundle.of(null));
         ClientHttpRequestFactory requestFactory = ClientHttpRequestFactories.get(requestFactorySettings);
         Builder clientBuilder = RestClient.builder().requestFactory(requestFactory);
-        OpenAiApi openAiApi = new OpenAiApi(setting.get("openai_api_base").asText(), setting.get("openai_api_key").asText(), clientBuilder);
+        OpenAiApi openAiApi = new OpenAiApi(setting.getOpenaiApiBase(), setting.getAzureApiKey(), clientBuilder);
         return new OpenAiChatClient(openAiApi);
     }
 
@@ -63,7 +77,7 @@ public class ServiceFactory {
             Duration.ZERO , Duration.ZERO , SslBundle.of(null));
         ClientHttpRequestFactory requestFactory = ClientHttpRequestFactories.get(requestFactorySettings);
         Builder clientBuilder = RestClient.builder().requestFactory(requestFactory);
-        OpenAiApi openAiApi = new OpenAiApi(setting.get("moonshot_api_base").asText(), setting.get("moonshot_api_key").asText(), clientBuilder);
+        OpenAiApi openAiApi = new OpenAiApi(setting.getMoonshotApiBase(), setting.getMoonshotApiKey(), clientBuilder);
         OpenAiChatOptions options = OpenAiChatOptions.builder()
             .withModel("moonshot-v1-8k")
             .withTemperature(0.4F)
@@ -84,12 +98,62 @@ public class ServiceFactory {
 
     public MinioClient getMinioClient() {
         return MinioClient.builder()
-            .endpoint(setting.get("minio_base_url").asText())
-            .credentials(setting.get("minio_key").asText(), setting.get("minio_secret").asText())
+            .endpoint(setting.getMinioBaseUrl())
+            .credentials(setting.getMinioKey(), setting.getMinioSecret())
             .build();
     }
 
-    public void updateSetting(JsonNode setting) {
+    public WebSearchClient getWebSearchClient() {
+        String endpoint = "https://api.bing.microsoft.com/v7.0/images";
+
+        ServiceClientCredentials credentials = new ServiceClientCredentials() {
+            @Override
+            public void applyCredentialsFilter(OkHttpClient.Builder builder) {
+                builder.addNetworkInterceptor(
+                    new Interceptor() {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException {
+                            Request request = null;
+                            Request original = chain.request();
+                            Request.Builder requestBuilder = original.newBuilder();
+//                            requestBuilder.addHeader("Ocp-Apim-Subscription-Key", setting.getBingApiKey());
+                            requestBuilder.addHeader("Ocp-Apim-Subscription-Key", "ca11e4282bc844779a3ac4c03fd41363");
+                            request = requestBuilder.build();
+                            return chain.proceed(request);
+                        }
+                    }
+                );
+            }
+        };
+        return new WebSearchClientImpl(endpoint,credentials);
+    }
+
+    public ImageSearchClient getImageSerchClient() {
+        String endpoint = "https://api.bing.microsoft.com/v7.0";
+
+        ServiceClientCredentials credentials = new ServiceClientCredentials() {
+            @Override
+            public void applyCredentialsFilter(OkHttpClient.Builder builder) {
+                builder.addNetworkInterceptor(
+                    new Interceptor() {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException {
+                            Request request = null;
+                            Request original = chain.request();
+                            Request.Builder requestBuilder = original.newBuilder();
+                            requestBuilder.addHeader("Ocp-Apim-Subscription-Key", setting.getBingApiKey());
+                            request = requestBuilder.build();
+                            return chain.proceed(request);
+                        }
+                    }
+                );
+            }
+        };
+        return new ImageSearchClientImpl(endpoint,credentials);
+    }
+
+    public void updateSetting(Setting setting) {
         this.setting = setting;
     }
+
 }

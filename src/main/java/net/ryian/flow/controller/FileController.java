@@ -30,7 +30,7 @@ public class FileController {
         request.getFileMap().forEach((k,v) -> {
             try {
                 PutObjectArgs args = PutObjectArgs.builder()
-                    .bucket(serviceFactory.getSetting().get("minio_bucket").asText())
+                    .bucket(serviceFactory.getSetting().getMinioBucket())
                     .object(fileName)
                     .stream(v.getInputStream(), v.getSize(), -1)
                     .contentType(v.getContentType())

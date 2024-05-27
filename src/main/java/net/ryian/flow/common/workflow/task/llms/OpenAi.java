@@ -14,7 +14,7 @@ import net.ryian.flow.common.workflow.task.TaskParams;
  * @date 2024/5/15 09:11
  */
 @Component
-public class OpenAi {
+public class OpenAi extends BaseLlm {
 
     private final ServiceFactory serviceFactory;
 
@@ -34,6 +34,15 @@ public class OpenAi {
             .getResult().getOutput().getContent();
         workflow.updateNodeFieldValue(nodeId, "output", text);
         return workflow.getData();
+    }
+
+    @Override
+    ModelOutput processPrompt(ModelInput modelInput, int index) {
+        String content = serviceFactory.getOpenAiChatClient().call(
+                new Prompt(modelInput.getPrompt(), OpenAiChatOptions.builder().withModel(modelInput.getModel()).withTemperature(
+                    modelInput.getTemperature()).build()))
+            .getResult().getOutput().getContent();
+        return ModelOutput.builder().contentOutput(content).build();
     }
 
 }

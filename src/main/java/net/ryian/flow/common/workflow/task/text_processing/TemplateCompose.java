@@ -71,12 +71,12 @@ public class TemplateCompose {
         if (!fieldsHasList) {
             fieldsValues.put("template", Collections.singletonList(fieldsValues.get("template").get(0)));
         }
-        workflow.updateNodeFieldValue(nodeId, "template", fieldsValues.get("template").get(0));
+        workflow.updateNodeFieldValue(nodeId, "template", fieldsValues.get("template"));
 
         if (!fieldsHasList) {
             fieldsValues.put("output", Collections.singletonList(fieldsValues.get("output").get(0)));
         }
-        workflow.updateNodeFieldValue(nodeId, "output", fieldsValues.get("output").get(0));
+        workflow.updateNodeFieldValue(nodeId, "output", fieldsValues.get("output"));
 
         return workflow.getData();
     }

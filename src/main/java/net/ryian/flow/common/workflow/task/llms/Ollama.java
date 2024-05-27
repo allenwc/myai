@@ -14,7 +14,7 @@ import net.ryian.flow.common.workflow.task.TaskParams;
  * @date 2024/5/14 20:19
  */
 @Component
-public class Ollama {
+public class Ollama extends BaseLlm {
 
     ServiceFactory serviceFactory;
 
@@ -24,18 +24,18 @@ public class Ollama {
     }
 
     public Object execute(TaskParams taskParams) {
-        Workflow workflow = new Workflow(taskParams.getWorkflowData());
-        String nodeId = taskParams.getNodeId();
-        String text = (String) workflow.getNodeFieldValue(nodeId, "prompt");
-        String model = (String) workflow.getNodeFieldValue(nodeId, "llm_model");
-        float temperature = (float) workflow.getNodeFieldValue(nodeId, "temperature");
+        return super.execute(taskParams);
+    }
+
+    @Override
+    ModelOutput processPrompt(ModelInput modelInput, int index) {
         OllamaOptions options = OllamaOptions.create();
-        options.setModel(model);
-        options.setTemperature(temperature);
-        Prompt prompt = new Prompt(text,options);
-        text = serviceFactory.getOllamaChatClient().call(prompt).getResult().getOutput().getContent();
-        workflow.updateNodeFieldValue(nodeId, "output", text);
-        return workflow.getData();
+        options.setModel(modelInput.getModel());
+        options.setTemperature(modelInput.getTemperature());
+        String content = serviceFactory.getOllamaChatClient().call(
+                new Prompt(modelInput.getPrompt(), options))
+            .getResult().getOutput().getContent();
+        return ModelOutput.builder().contentOutput(content).build();
     }
 
 }

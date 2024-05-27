@@ -41,6 +41,8 @@ public class JsonUtil {
         }
     }
 
+
+
     public static String listToString(List<?> list) {
         try {
             return objectMapper.writeValueAsString(list);

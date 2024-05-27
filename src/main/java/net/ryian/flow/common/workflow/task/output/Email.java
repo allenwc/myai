@@ -42,7 +42,7 @@ public class Email {
         try {
             messageHelper = new MimeMessageHelper(message, true);
             //邮件发送人
-            messageHelper.setFrom(serviceFactory.getSetting().get("email_user").asText());
+            messageHelper.setFrom(serviceFactory.getSetting().getEmailUser());
             //邮件接收人,设置多个收件人地址
             InternetAddress[] internetAddressTo = InternetAddress.parse(toEmail);
             messageHelper.setTo(internetAddressTo);

@@ -7,18 +7,13 @@ import net.ryian.flow.common.workflow.task.TaskParams;
 
 /**
  * @author allenwc
- * @date 2024/5/15 09:08
+ * @date 2024/5/26 10:18
  */
 @Component
-public class Text {
+public class Mindmap {
 
     public Object execute(TaskParams params) {
         Workflow workflow = new Workflow(params.getWorkflowData());
-        String nodeId = params.getNodeId();
-        Object text = workflow.getNodeFieldValue(nodeId, "text");
-        workflow.getNodeFieldValue(nodeId, "output_title");
-        workflow.updateNodeFieldValue(nodeId, "text", text);
-        workflow.updateNodeFieldValue(nodeId, "output", text);
         return workflow.getData();
     }
 

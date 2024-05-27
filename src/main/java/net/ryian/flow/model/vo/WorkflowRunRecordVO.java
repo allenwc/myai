@@ -10,7 +10,7 @@ import lombok.Data;
  * @date 2024/5/4 19:22
  */
 @Data
-public class WorkflowRunRecordVO {
+public class WorkflowRunRecordVO extends PaginateVO{
 
     String rid;
     String status;

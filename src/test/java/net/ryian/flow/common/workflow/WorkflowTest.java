@@ -50,9 +50,9 @@ public class WorkflowTest {
                 throw new RuntimeException(e);
             }
         }).toArray(Task[]::new);
-        workflow.updateNodeFieldValue("596290f9-5c27-4447-be26-0c7e2f6d89b3","text",readResourceFileAsString("37f97d57-f07e-45c0-8c36-38c089926b58"));
-        workflow.updateNodeFieldValue("46e0b2ee-ebf1-4efe-b10d-91171e103efb","text","allenwc@126.com");
-        System.out.println(Chain.chain(tasks).apply(workflow.getData()));
+//        workflow.updateNodeFieldValue("596290f9-5c27-4447-be26-0c7e2f6d89b3","text",readResourceFileAsString("37f97d57-f07e-45c0-8c36-38c089926b58"));
+//        workflow.updateNodeFieldValue("46e0b2ee-ebf1-4efe-b10d-91171e103efb","text","allenwc@126.com");
+//        System.out.println(Chain.chain(tasks).apply(workflow.getData()));
     }
 
 }

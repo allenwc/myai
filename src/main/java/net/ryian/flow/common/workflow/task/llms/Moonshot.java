@@ -14,7 +14,7 @@ import net.ryian.flow.common.workflow.task.TaskParams;
  * @date 2024/5/15 09:09
  */
 @Component
-public class Moonshot {
+public class Moonshot extends BaseLlm{
 
     private final ServiceFactory serviceFactory;
 
@@ -23,17 +23,16 @@ public class Moonshot {
         this.serviceFactory = serviceFactory;
     }
 
-    public Object execute(TaskParams params) {
-        Workflow workflow = new Workflow(params.getWorkflowData());
-        String nodeId = params.getNodeId();
-        String text = (String) workflow.getNodeFieldValue(nodeId, "prompt");
-        String model = (String) workflow.getNodeFieldValue(nodeId, "llm_model");
-        float temperature = (float) workflow.getNodeFieldValue(nodeId, "temperature");
-        text = serviceFactory.getMoonshotChatClient().call(
-                new Prompt(text, OpenAiChatOptions.builder().withModel(model).withTemperature(temperature).build()))
+    @Override
+    ModelOutput processPrompt(ModelInput modelInput, int index) {
+        String content = serviceFactory.getMoonshotChatClient().call(
+                new Prompt(modelInput.getPrompt(), OpenAiChatOptions.builder().withModel(modelInput.getModel()).withTemperature(modelInput.getTemperature()).build()))
             .getResult().getOutput().getContent();
-        workflow.updateNodeFieldValue(nodeId, "output", text);
-        return workflow.getData();
+        return ModelOutput.builder().contentOutput(content).build();
     }
 
+    @Override
+    public Object execute(TaskParams params) {
+        return super.execute(params);
+    }
 }

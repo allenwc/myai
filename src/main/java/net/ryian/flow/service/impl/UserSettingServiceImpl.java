@@ -8,11 +8,14 @@ import org.springframework.util.CollectionUtils;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.annotation.PostConstruct;
+import lombok.SneakyThrows;
 import net.ryian.flow.common.utils.JsonUtil;
 import net.ryian.flow.integration.ServiceFactory;
 import net.ryian.flow.mapper.UserSettingMapper;
+import net.ryian.flow.model.bo.Setting;
 import net.ryian.flow.model.po.UserSettingPO;
 import net.ryian.flow.model.vo.param.SettingParam;
 import net.ryian.flow.service.UserSettingService;
@@ -49,10 +52,11 @@ public class UserSettingServiceImpl extends ServiceImpl<UserSettingMapper, UserS
     }
 
     @PostConstruct
+    @SneakyThrows
     public void notifySetting() {
         UserSettingPO userSetting = this.get();
         if (userSetting != null) {
-            JsonNode setting = JsonUtil.stringToJson(userSetting.getData());
+            Setting setting = new ObjectMapper().readValue(userSetting.getData(), Setting.class);
             serviceFactory.updateSetting(setting);
         }
     }

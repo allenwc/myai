@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import net.ryian.flow.model.po.UserRelationalDatabasePO;

@@ -14,15 +14,10 @@ import org.springframework.stereotype.Component;
 import com.microsoft.bing.imagesearch.ImageSearchClient;
 import com.microsoft.bing.imagesearch.models.ImageObject;
 import com.microsoft.bing.imagesearch.models.Images;
-import com.microsoft.bing.websearch.WebSearchClient;
-import com.microsoft.bing.websearch.models.SearchResponse;
-import com.microsoft.bing.websearch.models.WebPage;
 
 import lombok.extern.slf4j.Slf4j;
 import net.ryian.flow.common.workflow.Workflow;
 import net.ryian.flow.common.workflow.task.TaskParams;
-import net.ryian.flow.common.workflow.task.tools.meta.ImageResult;
-import net.ryian.flow.common.workflow.task.tools.meta.SearchResult;
 import net.ryian.flow.integration.ServiceFactory;
 
 /**
@@ -55,14 +50,14 @@ public class ImageSearch {
             searchTextList.add((String) inputSearchText);
         }
 
-        Map<CompletableFuture<List<ImageResult>>,Integer> futures = new HashMap();
+        Map<CompletableFuture<List<String>>,Integer> futures = new HashMap();
         for (int i = 0; i < searchTextList.size(); i++) {
             String searchText = searchTextList.get(i);
             int index = i;
-            CompletableFuture<List<ImageResult>> future = CompletableFuture.supplyAsync(() -> {
+            CompletableFuture<List<String>> future = CompletableFuture.supplyAsync(() -> {
                 try{
                     semaphore.acquire();
-                    return search(searchEngine, searchText,count);
+                    return search(searchEngine, searchText,count,outputType);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -73,8 +68,8 @@ public class ImageSearch {
             futures.put(future,index);
         }
 
-        List<ImageResult>[] searchResults = new List[searchTextList.size()];
-        for (CompletableFuture<List<ImageResult>> future : futures.keySet()) {
+        List<String>[] searchResults = new List[searchTextList.size()];
+        for (CompletableFuture<List<String>> future : futures.keySet()) {
             int index = futures.get(future);
             try {
                 searchResults[index] = future.get();
@@ -84,44 +79,39 @@ public class ImageSearch {
             }
         }
 
-
-        if("text".equals(outputType)) {
-
-        } else if ("markdown".equals(outputType)) {
-
-        }
-
         if(inputSearchText instanceof List<?>) {
-            workflow.updateNodeFieldValue(nodeId, "output", new ArrayList<>());
+            workflow.updateNodeFieldValue(nodeId, "output", searchResults[0]);
         } else {
-            workflow.updateNodeFieldValue(nodeId, "output", new ArrayList<>());
+            workflow.updateNodeFieldValue(nodeId, "output", searchResults);
         }
 
         return workflow.getData();
     }
 
-    private List<ImageResult> search(String type,String searchText, int count) {
+    private List<String> search(String type,String searchText, int count,String outputType) {
         if("bing".equals(type)) {
-            return bingSearch(serviceFactory.getImageSerchClient(),searchText,count);
+            return bingSearch(serviceFactory.getImageSearchClient(),searchText,count,outputType);
         }
         return null;
     }
 
-    private List<ImageResult> bingSearch(ImageSearchClient client,String searchText,int count) {
+    private List<String> bingSearch(ImageSearchClient client,String searchText,int count,String outputType) {
         log.info("Searching for: " + searchText);
         Images imageResults = client.images().search(searchText);
 
-        List<ImageResult> results = new ArrayList<>();
+        List<String> results = new ArrayList<>();
 
-        if (imageResults != null && imageResults.value().size() > 0) {
+        if (imageResults != null && !imageResults.value().isEmpty()) {
             for(int i = 0;i < Math.min(imageResults.value().size(),count);i++) {
                 ImageObject image = imageResults.value().get(i);
-                if (image != null) {
-                    results.add(ImageResult.builder().name(image.name()).url(image.url()).build());
+                if ("text".equals(outputType)) {
+                    results.add(image.url());
+                } else if ("markdown".equals(outputType)) {
+                    results.add(String.format("![%s](%s)",image.name(),image.url()));
                 }
             }
         } else {
-            System.out.println("Didn't see any Web data..");
+            System.out.println("Didn't see any Image data..");
         }
         return results;
     }

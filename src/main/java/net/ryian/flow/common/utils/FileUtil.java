@@ -11,7 +11,6 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 
 import io.minio.GetObjectArgs;
-import io.minio.MinioClient;
 import lombok.Data;
 import lombok.SneakyThrows;
 import net.ryian.flow.integration.ServiceFactory;

@@ -5,9 +5,8 @@ import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import net.ryian.flow.common.workflow.Workflow;
-import net.ryian.flow.integration.ServiceFactory;
 import net.ryian.flow.common.workflow.task.TaskParams;
+import net.ryian.flow.integration.ServiceFactory;
 
 /**
  * @author allenwc

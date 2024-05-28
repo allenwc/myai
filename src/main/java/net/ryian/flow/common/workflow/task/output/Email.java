@@ -10,8 +10,8 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import net.ryian.flow.common.workflow.Workflow;
-import net.ryian.flow.integration.ServiceFactory;
 import net.ryian.flow.common.workflow.task.TaskParams;
+import net.ryian.flow.integration.ServiceFactory;
 
 /**
  * @author allenwc

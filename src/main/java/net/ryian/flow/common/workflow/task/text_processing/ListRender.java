@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson2.JSONArray;
-
 import lombok.SneakyThrows;
 import net.ryian.flow.common.workflow.Workflow;
 import net.ryian.flow.common.workflow.task.TaskParams;

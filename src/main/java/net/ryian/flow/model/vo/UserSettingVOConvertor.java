@@ -2,7 +2,6 @@ package net.ryian.flow.model.vo;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import net.ryian.flow.model.po.UserSettingPO;

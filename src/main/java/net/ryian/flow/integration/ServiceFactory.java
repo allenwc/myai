@@ -1,6 +1,5 @@
 package net.ryian.flow.integration;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -22,21 +21,15 @@ import org.springframework.web.client.RestClient.Builder;
 
 import com.microsoft.bing.imagesearch.ImageSearchClient;
 import com.microsoft.bing.imagesearch.implementation.ImageSearchClientImpl;
-import com.microsoft.bing.imagesearch.models.ImageObject;
 import com.microsoft.bing.imagesearch.models.Images;
 import com.microsoft.bing.websearch.WebSearchClient;
 import com.microsoft.bing.websearch.implementation.WebSearchClientImpl;
-import com.microsoft.bing.websearch.models.SearchResponse;
-import com.microsoft.bing.websearch.models.WebPage;
 import com.microsoft.rest.credentials.ServiceClientCredentials;
 
 import io.minio.MinioClient;
 import lombok.Getter;
 import net.ryian.flow.model.bo.Setting;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * @author allenwc
@@ -104,56 +97,41 @@ public class ServiceFactory {
     }
 
     public WebSearchClient getWebSearchClient() {
-        String endpoint = "https://api.bing.microsoft.com/v7.0/images";
+        String endpoint = "https://api.bing.microsoft.com/v7.0";
 
-        ServiceClientCredentials credentials = new ServiceClientCredentials() {
-            @Override
-            public void applyCredentialsFilter(OkHttpClient.Builder builder) {
-                builder.addNetworkInterceptor(
-                    new Interceptor() {
-                        @Override
-                        public Response intercept(Chain chain) throws IOException {
-                            Request request = null;
-                            Request original = chain.request();
-                            Request.Builder requestBuilder = original.newBuilder();
-//                            requestBuilder.addHeader("Ocp-Apim-Subscription-Key", setting.getBingApiKey());
-                            requestBuilder.addHeader("Ocp-Apim-Subscription-Key", "ca11e4282bc844779a3ac4c03fd41363");
-                            request = requestBuilder.build();
-                            return chain.proceed(request);
-                        }
-                    }
-                );
-            }
-        };
+        ServiceClientCredentials credentials = builder -> builder.addNetworkInterceptor(chain -> {
+            Request request = null;
+            Request original = chain.request();
+            Request.Builder requestBuilder = original.newBuilder();
+            requestBuilder.addHeader("Ocp-Apim-Subscription-Key", setting.getBingApiKey());
+            request = requestBuilder.build();
+            return chain.proceed(request);
+        });
         return new WebSearchClientImpl(endpoint,credentials);
     }
 
-    public ImageSearchClient getImageSerchClient() {
+    public ImageSearchClient getImageSearchClient() {
         String endpoint = "https://api.bing.microsoft.com/v7.0";
 
-        ServiceClientCredentials credentials = new ServiceClientCredentials() {
-            @Override
-            public void applyCredentialsFilter(OkHttpClient.Builder builder) {
-                builder.addNetworkInterceptor(
-                    new Interceptor() {
-                        @Override
-                        public Response intercept(Chain chain) throws IOException {
-                            Request request = null;
-                            Request original = chain.request();
-                            Request.Builder requestBuilder = original.newBuilder();
-                            requestBuilder.addHeader("Ocp-Apim-Subscription-Key", setting.getBingApiKey());
-                            request = requestBuilder.build();
-                            return chain.proceed(request);
-                        }
-                    }
-                );
-            }
-        };
+        ServiceClientCredentials credentials = builder -> builder.addNetworkInterceptor(chain -> {
+            Request request = null;
+            Request original = chain.request();
+            Request.Builder requestBuilder = original.newBuilder();
+            requestBuilder.addHeader("Ocp-Apim-Subscription-Key", setting.getBingApiKey());
+            request = requestBuilder.build();
+            return chain.proceed(request);
+        });
         return new ImageSearchClientImpl(endpoint,credentials);
     }
 
     public void updateSetting(Setting setting) {
         this.setting = setting;
+    }
+
+    public static void main(String[] args) {
+        ImageSearchClient client = new ServiceFactory().getImageSearchClient();
+        Images images = client.images().search("杭州小草信息技术有限公司");
+        System.out.println(images);
     }
 
 }
